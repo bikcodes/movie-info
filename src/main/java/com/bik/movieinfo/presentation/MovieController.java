@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class MovieController {
     private final MovieService service;
     @PostMapping(value = "/upload", consumes = {"multipart/form-data"} )
-    public ResponseEntity<Integer> uploadMovies(@RequestPart("file") MultipartFile file) {
+    public ResponseEntity<Integer> uploadMovies(@RequestPart("file") MultipartFile file)  {
         return ResponseEntity.ok(service.uploadMovies(file));
     }
 }
