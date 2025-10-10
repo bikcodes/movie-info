@@ -1,12 +1,12 @@
 package com.bik.movieinfo.presentation;
 
 import com.bik.movieinfo.application.MovieService;
+import com.bik.movieinfo.presentation.dto.MovieRequest;
+import com.bik.movieinfo.presentation.dto.MovieResponse;
+import com.bik.movieinfo.presentation.mapper.MovieMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
@@ -17,5 +17,9 @@ public class MovieController {
     @PostMapping(value = "/upload", consumes = {"multipart/form-data"} )
     public ResponseEntity<Integer> uploadMovies(@RequestPart("file") MultipartFile file)  {
         return ResponseEntity.ok(service.uploadMovies(file));
+    }
+    @GetMapping("")
+    public MovieResponse getMovie(@RequestBody MovieRequest request) {
+        return MovieMapper.toResponse(service.findByIdAndTitle(request.id(), request.title()));
     }
 }

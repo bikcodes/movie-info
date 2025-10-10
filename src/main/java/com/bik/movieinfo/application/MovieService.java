@@ -2,6 +2,7 @@ package com.bik.movieinfo.application;
 
 import com.bik.movieinfo.data.MovieRepository;
 import com.bik.movieinfo.domain.Movie;
+import com.bik.movieinfo.presentation.dto.MovieResponse;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.HeaderColumnNameMappingStrategy;
@@ -74,5 +75,11 @@ public class MovieService {
         } catch (IOException e) {
             throw new RuntimeException("fail to parse CSV file: " + e.getMessage());
         }
+    }
+
+    public Movie findByIdAndTitle(Long id, String title) {
+        return repository.findById(id)
+                .filter(movie -> movie.getTitle().equalsIgnoreCase(title))
+                .orElseThrow(() -> new RuntimeException("Movie not found with id: " + id + " and title: " + title));
     }
 }
